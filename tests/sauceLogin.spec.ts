@@ -49,4 +49,9 @@ test.describe("Sauce Demo Loing Tests with POM", () => {
 
         await sauceproductsPage.validateProductPageElements();
     })
+
+    test("XXXXXXshould verify product details page elements", async ({ page }) => {
+
+        await sauceproductsPage.validateProductPageElements();
+    })
 })
