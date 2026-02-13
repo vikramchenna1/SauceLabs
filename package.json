@@ -16,6 +16,7 @@
   "devDependencies": {
     "@playwright/test": "^1.57.0",
     "@types/mocha": "^10.0.10",
-    "@types/node": "^25.0.9"
+    "@types/node": "^25.0.9",
+    "allure-playwright": "^3.4.5"
   }
 }

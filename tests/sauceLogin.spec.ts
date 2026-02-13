@@ -16,14 +16,18 @@ test.describe("Sauce Demo Loing Tests with POM", () => {
     })
 
     test.afterEach(async ({ page }) => {
-        await page.waitForTimeout(5000);
+        //await page.waitForTimeout(5000);
     });
 
-    test("should not login without credentials", async ({ page }) => {
+    test.only("should not login without credentials", async ({ page }) => {
         await sauceloginPage.goto();
-        await sauceloginPage.emptyCredentialsLogin("", "");
-        // To check error message get displayed when login with empty credentialsl
-        await expect(sauceloginPage.usernameError).toBeVisible();
+        // leave both fields empty to validate the username-required error
+        await sauceloginPage.emptyCredentialsLogin('', '');
+        // To check error message get displayed when login with empty credentials
+        await expect(sauceloginPage.usernameError).toBeVisible()
+        //To print the error message on console
+        console.log(await sauceloginPage.usernameError.textContent())
+        expect(sauceloginPage.usernameError).toHaveText('Epic sadface: Username is required');
     })
     test("should not login without password", async ({ page }) => {
         await sauceloginPage.goto();
@@ -31,6 +35,8 @@ test.describe("Sauce Demo Loing Tests with POM", () => {
 
         // To check error message is displayed when login is performed without password
         await expect(sauceloginPage.passwordError).toBeVisible();
+        //To print the error message on console
+        console.log(await sauceloginPage.passwordError.textContent())
     })
     test("should not login without username", async ({ page }) => {
         await sauceloginPage.goto();
@@ -39,7 +45,7 @@ test.describe("Sauce Demo Loing Tests with POM", () => {
         await expect(sauceloginPage.usernameError).toBeVisible();
     })
 
-    test.only("should login successfully with valid credentails", async ({ page }) => {
+    test("should login successfully with valid credentails", async ({ page }) => {
         await sauceloginPage.goto();
         await sauceloginPage.login(creds.username, creds.password);
         // To check successful login by verifying the url
@@ -50,4 +56,9 @@ test.describe("Sauce Demo Loing Tests with POM", () => {
         await sauceproductsPage.validateProductPageElements();
     })
 
+    test("print all the products on console", async ({ page }) => {
+        const products = page.locator("[data-test='inventory-item-name']");
+        await products.first().waitFor();
+        console.log(await products.allTextContents())
     })
+})
