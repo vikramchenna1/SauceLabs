@@ -1,6 +1,6 @@
 import { test, expect } from "playwright/test"
-import { SauceLoginPage } from "../pages1/sauceLogin.page.ts"
-import { SauceProductsPage } from "../pages1/sauceProducts.page.ts";
+import { SauceLoginPage } from "../pages/sauceLogin.page.ts"
+import { SauceProductsPage } from "../pages/sauceProducts.page.ts";
 import creds from '../test-data/credentials.json';
 
 test.describe("Sauce Demo Loing Tests with POM", () => {
@@ -19,7 +19,7 @@ test.describe("Sauce Demo Loing Tests with POM", () => {
         //await page.waitForTimeout(5000);
     });
 
-    test.only("should not login without credentials", async ({ page }) => {
+    test("should not login without credentials", async ({ page }) => {
         await sauceloginPage.goto();
         // leave both fields empty to validate the username-required error
         await sauceloginPage.emptyCredentialsLogin('', '');
@@ -45,7 +45,7 @@ test.describe("Sauce Demo Loing Tests with POM", () => {
         await expect(sauceloginPage.usernameError).toBeVisible();
     })
 
-    test("should login successfully with valid credentails", async ({ page }) => {
+    test.only("should login successfully with valid credentails", async ({ page }) => {
         await sauceloginPage.goto();
         await sauceloginPage.login(creds.username, creds.password);
         // To check successful login by verifying the url
@@ -56,9 +56,8 @@ test.describe("Sauce Demo Loing Tests with POM", () => {
         await sauceproductsPage.validateProductPageElements();
     })
 
-    test("print all the products on console", async ({ page }) => {
-        const products = page.locator("[data-test='inventory-item-name']");
-        await products.first().waitFor();
-        console.log(await products.allTextContents())
+    test.only("print all the products on console", async ({ page }) => {
+       await sauceproductsPage.printProductNames();
+        
     })
 })
